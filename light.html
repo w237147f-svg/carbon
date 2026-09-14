@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パノラマ（濃い赤アイコン）</title>
+    <title>パノラマ（強制描画アイコン）</title>
     <!-- Pannellum CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
@@ -12,33 +12,17 @@
         body { margin: 0; padding: 0; overflow: hidden; }
         #panorama { width: 100vw; height: 100vh; }
 
-        /* アイコンを手前に強調表示する共通設定（前回の設定を維持） */
-        .pnm-hotspot, 
-        .pnm-hotspot-container, 
-        .pnm-sprite {
-            z-index: 9999 !important;
-            opacity: 1 !important;
-        }
-
-        /* ★アイコンのデザインを「濃い赤」に変更する設定 */
-        .pnm-sprite.pnm-info {
-            background-color: #8B0000 !important; /* 濃い赤 (DarkRed) */
-            border: 2px solid #ffffff !important;   /* 白いフチ取り（見やすさのため維持） */
+        /* ★直接定義した「濃い赤」のアイコン要素 */
+        .force-red-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #8B0000 !important; /* 濃い赤 */
+            border: 2px solid #ffffff !important;   /* 白いフチ */
             border-radius: 50% !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.7) !important; /* 影を少し濃く */
-            width: 30px !important;
-            height: 30px !important;
-        }
-
-        /* ツールチップ（吹き出し）のデザインも少し調整（オプション） */
-        .pnm-tooltip span {
-            background-color: #8B0000 !important; /* ツールチップの背景も濃い赤に */
-            color: #ffffff !important;              /* 文字は白 */
-            border-radius: 4px;
-            padding: 5px 10px;
-        }
-        .pnm-tooltip:after {
-            border-top-color: #8B0000 !important; /* 吹き出しの三角部分 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.8) !important;
+            cursor: pointer;
+            z-index: 999999 !important; /* 絶対に最前面に表示 */
+            display: block !important;
         }
     </style>
 </head>
@@ -47,21 +31,38 @@
 <div id="panorama"></div>
 
 <script>
-pannellum.viewer('panorama', {
+// パノラマビューワーの初期化
+var viewer = pannellum.viewer('panorama', {
     "type": "equirectangular",
     "panorama": "image_5193cb.jpg",
     "autoLoad": true,
-    "pitch": 25,
+    "pitch": 20, /* 初期視点を上（蛍光灯側）に設定 */
     "yaw": 0,
-    "hotSpots": [
-        {
-            /* 天井の蛍光灯付近 */
-            "pitch": 30,
-            "yaw": 0,
-            "type": "info",
-            "text": "蛍光灯（照明設備）"
+    "hfov": 100
+});
+
+// パノラマの準備が整ったら画面上に直接アイコンを設置する
+viewer.on('load', function() {
+    
+    // 自作した濃い赤のHTML要素を作成
+    var redDomElement = document.createElement('div');
+    redDomElement.className = 'force-red-icon';
+    redDomElement.title = "天井の蛍光灯";
+    
+    // クリック時に文字が出るアクション
+    redDomElement.addEventListener('click', function() {
+        alert("天井の蛍光灯（照明設備）です");
+    });
+
+    // ビューワーの画面上（正面・天井付近）に動的に追加
+    viewer.addHotSpot({
+        "pitch": 25, /* カメラ正面の少し上（蛍光灯） */
+        "yaw": 0,    /* カメラ正面 */
+        "createTooltipFunc": function(container) {
+            container.appendChild(redDomElement);
         }
-    ]
+    });
+
 });
 </script>
 
