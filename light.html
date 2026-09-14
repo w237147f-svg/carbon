@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パノラマ（手前強調アイコン）</title>
+    <title>パノラマ（濃い赤アイコン）</title>
     <!-- Pannellum CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
@@ -12,27 +12,33 @@
         body { margin: 0; padding: 0; overflow: hidden; }
         #panorama { width: 100vw; height: 100vh; }
 
-        /* ★アイコンを画像より最手前（前面）に浮き出させる設定 */
+        /* アイコンを手前に強調表示する共通設定（前回の設定を維持） */
         .pnm-hotspot, 
         .pnm-hotspot-container, 
         .pnm-sprite {
-            z-index: 9999 !important; /* パノラマ画像より確実に手前に表示 */
-            opacity: 1 !important;     /* 透けずにクッキリ表示 */
+            z-index: 9999 !important;
+            opacity: 1 !important;
         }
 
-        /* アイコン自体の見やすさ（デザイン）調整 */
+        /* ★アイコンのデザインを「濃い赤」に変更する設定 */
         .pnm-sprite.pnm-info {
-            background-color: #ff3366 !important; /* 見つけやすいように赤ピンク色に変更 */
-            border: 2px solid #ffffff !important;  /* 白いフチ取り */
+            background-color: #8B0000 !important; /* 濃い赤 (DarkRed) */
+            border: 2px solid #ffffff !important;   /* 白いフチ取り（見やすさのため維持） */
             border-radius: 50% !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5) !important; /* 影をつけて浮き上がらせる */
+            box-shadow: 0 0 10px rgba(0,0,0,0.7) !important; /* 影を少し濃く */
             width: 30px !important;
             height: 30px !important;
         }
 
-        /* ツールチップ（吹き出しテキスト）も手前に表示 */
-        .pnm-tooltip {
-            z-index: 10000 !important;
+        /* ツールチップ（吹き出し）のデザインも少し調整（オプション） */
+        .pnm-tooltip span {
+            background-color: #8B0000 !important; /* ツールチップの背景も濃い赤に */
+            color: #ffffff !important;              /* 文字は白 */
+            border-radius: 4px;
+            padding: 5px 10px;
+        }
+        .pnm-tooltip:after {
+            border-top-color: #8B0000 !important; /* 吹き出しの三角部分 */
         }
     </style>
 </head>
@@ -45,7 +51,7 @@ pannellum.viewer('panorama', {
     "type": "equirectangular",
     "panorama": "image_5193cb.jpg",
     "autoLoad": true,
-    "pitch": 25, /* 初期視点を少し上に設定（蛍光灯が見えやすい角度） */
+    "pitch": 25,
     "yaw": 0,
     "hotSpots": [
         {
