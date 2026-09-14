@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>蛍光灯アイコン確認ページ</title>
+    <title>パノラマテスト</title>
+    <!-- Pannellum CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
@@ -20,15 +21,13 @@ pannellum.viewer('panorama', {
     "type": "equirectangular",
     "panorama": "image_5193cb.jpg",
     "autoLoad": true,
-    "hfov": 100,
-    "pitch": 25, /* ページを開いた時の上下角度（少し上を向く） */
-    "yaw": 0,    /* ページを開いた時の左右角度（正面） */
+    "hotSpotDebug": true, // ★ここをtrueにするとクリックした場所に強制的にホットスポットが作れます
     "hotSpots": [
         {
-            "pitch": 30,  /* 正面少し上の天井（蛍光灯付近） */
-            "yaw": 0,     /* 正面 */
+            "pitch": 0,   /* カメラの真前（正面中央） */
+            "yaw": 0,     /* カメラの真前（正面中央） */
             "type": "info",
-            "text": "ここに蛍光灯があります"
+            "text": "正面テストアイコン"
         }
     ]
 });
@@ -36,4 +35,3 @@ pannellum.viewer('panorama', {
 
 </body>
 </html>
-
