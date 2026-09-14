@@ -3,22 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>蛍光灯アイコン付きパノラマ</title>
-    
-    <!-- PannellumのCSS/JSライブラリを読み込む -->
+    <title>蛍光灯アイコン確認ページ</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-    
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        #panorama {
-            width: 100vw;
-            height: 100vh;
-        }
+        body { margin: 0; padding: 0; overflow: hidden; }
+        #panorama { width: 100vw; height: 100vh; }
     </style>
 </head>
 <body>
@@ -26,29 +16,24 @@
 <div id="panorama"></div>
 
 <script>
-    pannellum.viewer('panorama', {
-        "type": "equirectangular",
-        "panorama": "image_5193cb.jpg", // 元の画像をそのまま参照
-        "autoLoad": true,
-        "compass": true,
-        "hotSpots": [
-            {
-                // 中央付近の照明（天井）の位置
-                "pitch": 48.0,
-                "yaw": -3.0,
-                "type": "info",
-                "text": "天井の蛍光灯（照明設備）"
-            },
-            {
-                // 教室奥・右側の照明の位置
-                "pitch": 38.0,
-                "yaw": 45.0,
-                "type": "info",
-                "text": "窓際の蛍光灯"
-            }
-        ]
-    });
+pannellum.viewer('panorama', {
+    "type": "equirectangular",
+    "panorama": "image_5193cb.jpg",
+    "autoLoad": true,
+    "hfov": 100,
+    "pitch": 25, /* ページを開いた時の上下角度（少し上を向く） */
+    "yaw": 0,    /* ページを開いた時の左右角度（正面） */
+    "hotSpots": [
+        {
+            "pitch": 30,  /* 正面少し上の天井（蛍光灯付近） */
+            "yaw": 0,     /* 正面 */
+            "type": "info",
+            "text": "ここに蛍光灯があります"
+        }
+    ]
+});
 </script>
 
 </body>
 </html>
+
