@@ -1,30 +1,38 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パノラマ（強制描画アイコン）</title>
-    <!-- Pannellum CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-    
-    <style>
-        body { margin: 0; padding: 0; overflow: hidden; }
-        #panorama { width: 100vw; height: 100vh; }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パノラマ（強制描画アイコン）</title>
+    <!-- Pannellum CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 
-        /* ★直接定義した「濃い赤」のアイコン要素 */
-        .force-red-icon {
-            width: 32px;
-            height: 32px;
-            background-color: #8B0000 !important; /* 濃い赤 */
-            border: 2px solid #ffffff !important;   /* 白いフチ */
-            border-radius: 50% !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8) !important;
-            cursor: pointer;
-            z-index: 999999 !important; /* 絶対に最前面に表示 */
-            display: block !important;
-        }
-    </style>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        #panorama { width: 100vw; height: 100vh; }
+
+        /* ★直接定義した「濃い赤」のアイコン要素 */
+        .force-red-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #8B0000 !important; /* 濃い赤 */
+            border: 2px solid #FFFFFF !important;   /* 白いフチ */
+            border-radius: 50% !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8) !important;
+            cursor: pointer;
+            z-index: 999999 !important; /* 絶対に最前面に表示 */
+            display: block !important;
+            pointer-events: auto; /* ★クリックを確実に検知するために追加 */
+        }
+
+        /* 補足：マウスホバー時に少し見た目を変えたい場合は以下も追加できます */
+        .force-red-icon:hover {
+            background-color: #FF0000 !important; /* ホバー時は明るい赤に */
+            transform: scale(1.1); /* 少し大きくする */
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
 </head>
 <body>
 
@@ -33,35 +41,27 @@
 <script>
 // パノラマビューワーの初期化
 var viewer = pannellum.viewer('panorama', {
-    "type": "equirectangular",
-    "panorama": "image_5193cb.jpg",
-    "autoLoad": true,
-    "pitch": 20, /* 初期視点を上（蛍光灯側）に設定 */
-    "yaw": 0,
-    "hfov": 100
+    "type": "equirectangular",
+    "panorama": "image_5193cb.jpg", // ※ご自身の画像のパスに合わせてください
+    "autoLoad": true,
+    "pitch": 20, /* 初期視点を上（蛍光灯側）に設定 */
+    "yaw": 0,
+    "hfov": 100
 });
 
 // パノラマの準備が整ったら画面上に直接アイコンを設置する
 viewer.on('load', function() {
-    
-    // 自作した濃い赤のHTML要素を作成
-    var redDomElement = document.createElement('div');
-    redDomElement.className = 'force-red-icon';
-    redDomElement.title = "天井の蛍光灯";
-    
-    // クリック時に文字が出るアクション
-    redDomElement.addEventListener('click', function() {
-        alert("天井の蛍光灯（照明設備）です");
-    });
 
-    // ビューワーの画面上（正面・天井付近）に動的に追加
-    viewer.addHotSpot({
-        "pitch": 25, /* カメラ正面の少し上（蛍光灯） */
-        "yaw": 0,    /* カメラ正面 */
-        "createTooltipFunc": function(container) {
-            container.appendChild(redDomElement);
-        }
-    });
+    // カスタムアイコンをホットスポットとして追加
+    viewer.addHotSpot({
+        "pitch": 25, /* カメラ正面の少し上（蛍光灯） */
+        "yaw": 0,    /* カメラ正面 */
+        "cssClass": "force-red-icon", // CSSで作成したクラスを指定
+        "clickHandlerFunc": function(event, args) {
+            // クリックされた時のアクション
+            alert("天井の蛍光灯（照明設備）です");
+        }
+    });
 
 });
 </script>
