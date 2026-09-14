@@ -3,13 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パノラマテスト</title>
+    <title>パノラマ（手前強調アイコン）</title>
     <!-- Pannellum CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    
     <style>
         body { margin: 0; padding: 0; overflow: hidden; }
         #panorama { width: 100vw; height: 100vh; }
+
+        /* ★アイコンを画像より最手前（前面）に浮き出させる設定 */
+        .pnm-hotspot, 
+        .pnm-hotspot-container, 
+        .pnm-sprite {
+            z-index: 9999 !important; /* パノラマ画像より確実に手前に表示 */
+            opacity: 1 !important;     /* 透けずにクッキリ表示 */
+        }
+
+        /* アイコン自体の見やすさ（デザイン）調整 */
+        .pnm-sprite.pnm-info {
+            background-color: #ff3366 !important; /* 見つけやすいように赤ピンク色に変更 */
+            border: 2px solid #ffffff !important;  /* 白いフチ取り */
+            border-radius: 50% !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5) !important; /* 影をつけて浮き上がらせる */
+            width: 30px !important;
+            height: 30px !important;
+        }
+
+        /* ツールチップ（吹き出しテキスト）も手前に表示 */
+        .pnm-tooltip {
+            z-index: 10000 !important;
+        }
     </style>
 </head>
 <body>
@@ -21,13 +45,15 @@ pannellum.viewer('panorama', {
     "type": "equirectangular",
     "panorama": "image_5193cb.jpg",
     "autoLoad": true,
-    "hotSpotDebug": true, // ★ここをtrueにするとクリックした場所に強制的にホットスポットが作れます
+    "pitch": 25, /* 初期視点を少し上に設定（蛍光灯が見えやすい角度） */
+    "yaw": 0,
     "hotSpots": [
         {
-            "pitch": 0,   /* カメラの真前（正面中央） */
-            "yaw": 0,     /* カメラの真前（正面中央） */
+            /* 天井の蛍光灯付近 */
+            "pitch": 30,
+            "yaw": 0,
             "type": "info",
-            "text": "正面テストアイコン"
+            "text": "蛍光灯（照明設備）"
         }
     ]
 });
