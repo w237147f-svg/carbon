@@ -12,24 +12,21 @@
         body { margin: 0; padding: 0; overflow: hidden; }
         #panorama { width: 100vw; height: 100vh; }
 
-        /* ★電球画像（images.png）を使用したアイコン設定 */
         .force-bulb-icon {
-            width: 45px !important;            /* アイコンの横幅 */
-            height: 45px !important;           /* アイコンの縦幅 */
-            background-image: url('images.png') !important; /* 電球画像を参照 */
+            width: 45px !important;
+            height: 45px !important;
+            background-image: url('images.png') !important;
             background-size: contain !important;
             background-repeat: no-repeat !important;
             background-position: center !important;
             cursor: pointer;
-            z-index: 999999 !important;        /* 最前面に表示 */
+            z-index: 999999 !important;
             display: block !important;
             pointer-events: auto;
-            /* 暗い天井でも背景と同化しないよう影を付与 */
             filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.9));
             transition: transform 0.2s ease-in-out;
         }
 
-        /* マウスホバー時に少し大きくする演出 */
         .force-bulb-icon:hover {
             transform: scale(1.2);
         }
@@ -40,23 +37,21 @@
 <div id="panorama"></div>
 
 <script>
-// パノラマビューワーの初期化
 var viewer = pannellum.viewer('panorama', {
     "type": "equirectangular",
     "panorama": "image_5193cb.jpg",
     "autoLoad": true,
-    "pitch": 20, /* 初期視点を上（蛍光灯側）に設定 */
+    "pitch": 30, /* 画面を開いた時も蛍光灯が見やすいように初期角度を上向きに */
     "yaw": 0,
     "hfov": 100
 });
 
-// パノラマの準備が整ったら画面上に電球アイコンを設置
 viewer.on('load', function() {
 
-    // カスタムアイコン（電球）をホットスポットとして追加
+    // ★蛍光灯の位置に合わせて設置（pitchを25→48に増やして上へずらしました）
     viewer.addHotSpot({
-        "pitch": 25, /* カメラ正面の少し上（蛍光灯） */
-        "yaw": 0,    /* カメラ正面 */
+        "pitch": 48, /* ★上下の位置：数字を大きくすると「上（天井方向）」に移動します */
+        "yaw": 0,    /* ★左右の位置：0が中央（左右にずらす場合はプラス/マイナスを入力） */
         "cssClass": "force-bulb-icon",
         "clickHandlerFunc": function(event, args) {
             alert("天井の蛍光灯（照明設備）です");
